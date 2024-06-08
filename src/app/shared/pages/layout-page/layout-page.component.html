@@ -1,0 +1,18 @@
+<main class="h-screen w-full bg-gray-100 text-gray-700 overflow-y-hidden">
+  <!-- logo -->
+
+  <!-- button profile -->
+  <shared-nav></shared-nav>
+
+  <div class="flex h-full">
+    <!-- aside -->
+    <div class="hidden md:block">
+      <shared-aside></shared-aside>
+    </div>
+
+    <!-- main content page -->
+    <div class="w-full p-4 mb-10 overflow-y-auto">
+      <router-outlet> </router-outlet>
+    </div>
+  </div>
+</main>

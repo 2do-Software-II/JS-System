@@ -1,0 +1,62 @@
+<h2>Editar Usuario<h2>
+<hr>
+
+<form [formGroup]="editForm" (ngSubmit)="saveUser()" class="m-2 p-4">
+  <mat-grid-list cols="1" rowHeight="70px" [style.width]="'20%'">
+
+    <mat-grid-tile>
+      <mat-form-field>
+        <mat-label>Nombre</mat-label>
+        <input matInput formControlName="nombre" placeholder="Nombre">
+        <mat-error *ngIf="editForm.controls['nombre'].invalid && editForm.controls['nombre'].touched">
+          Name is required
+        </mat-error>
+      </mat-form-field>
+    </mat-grid-tile>
+
+    <mat-grid-tile>
+      <mat-form-field>
+        <mat-label>Apellido</mat-label>
+        <input matInput formControlName="apellido" placeholder="Apellido">
+        <mat-error *ngIf="editForm.controls['apellido'].invalid && editForm.controls['apellido'].touched">
+          Name is required
+        </mat-error>
+      </mat-form-field>
+    </mat-grid-tile>
+
+    <mat-grid-tile>
+      <mat-form-field>
+        <mat-label>Email</mat-label>
+        <input matInput formControlName="email" placeholder="Enter email">
+        <mat-error *ngIf="editForm.controls['email'].invalid && editForm.controls['email'].touched">
+          Please enter a valid email address
+        </mat-error>
+      </mat-form-field>
+    </mat-grid-tile>
+
+    <mat-grid-tile>
+      <mat-form-field>
+        <mat-label>Rol</mat-label>
+        <mat-select formControlName="role" placeholder="Seleccionar el rol">
+          <mat-option *ngFor="let role of roles" [value]="role">
+            {{ role }}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="editForm.controls['role'].invalid && editForm.controls['role'].touched">
+          El rol es requerido
+        </mat-error>
+      </mat-form-field>
+    </mat-grid-tile>
+
+  </mat-grid-list>
+
+
+  <!-- Otros campos del formulario -->
+
+  <button mat-raised-button style="background-color: #636e72; color: #FFFFFF;" type="submit" [disabled]="editForm.invalid" class="m-2">
+    Guardar
+  </button>
+  <button mat-raised-button color="cancel" type="submit" [routerLink]="['/users']" >
+    Cancelar
+  </button>
+</form>

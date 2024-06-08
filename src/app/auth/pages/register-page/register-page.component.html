@@ -1,0 +1,44 @@
+<!-- component -->
+<div class="flex items-center justify-center h-full w-full">
+  <div class="min-w-fit flex-col border bg-white px-6 py-6 shadow-md rounded-[4px] ">
+    <form [formGroup]="registerForm" (submit)="onRegister()">
+      <div class="mb-8 flex justify-center">
+        <!-- <img class="h-auto w-56 ml-2" src="assets/img/logo_scz_black.png" alt="" /> -->
+        <h1>Registrarse</h1>
+      </div>
+      <div class="flex flex-col text-sm rounded-md">
+        <input class="mb-1 rounded-[4px] border p-3 hover:outline-none focus:outline-none hover:border-yellow-500 "
+          type="text" placeholder="Nombre" required formControlName="nombre" />
+        <mat-error *ngIf="isValidField('nombre')"> {{ getFieldError('nombre') }} </mat-error>
+
+        <input
+          class="mb-1 mt-4  rounded-[4px] border p-3 hover:outline-none focus:outline-none hover:border-yellow-500 "
+          type="text" placeholder="Apellido" required formControlName="apellido" />
+        <mat-error *ngIf="isValidField('apellido')"> {{ getFieldError('apellido') }} </mat-error>
+
+        <input
+          class="mb-1 mt-4  rounded-[4px] border p-3 hover:outline-none focus:outline-none hover:border-yellow-500 "
+          type="text" placeholder="Correo Electrónico" required formControlName="email" />
+        <mat-error *ngIf="isValidField('email')"> {{ getFieldError('email') }} </mat-error>
+
+        <input class="mb-1 mt-4 border rounded-[4px] p-3 hover:outline-none focus:outline-none hover:border-yellow-500"
+          type="password" placeholder="Contraseña" required formControlName="password" />
+        <mat-error *ngIf="isValidField('password')" class="mb-4"> {{ getFieldError('password') }} </mat-error>
+
+      </div>
+      <button class=" mt-5 w-full border p-2 bg-gradient-to-r from-gray-800 bg-gray-500 text-white rounded-[4px]
+          hover:bg-slate-400 scale-105 duration-300" type="submit">Registrarse</button>
+    </form>
+    <div class="flex justify-center mt-5">
+      <a class="text-sm text-gray-400 hover:underline" [routerLink]="'../login'">Iniciar Sesión</a>
+    </div>
+    <div class="invisible text-center text-sm text-gray-400">
+      <p>
+        This site is protected by reCAPTCHA and the Google <br />
+        <a class="underline" href="">Privacy Policy</a> and <a class="underline" href="">Terms of Service</a> apply.
+      </p>
+    </div>
+  </div>
+</div>
+
+
