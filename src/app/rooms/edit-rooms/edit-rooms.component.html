@@ -109,6 +109,12 @@
         </mat-error>
       </mat-form-field>
 
+      <section class="example-section" [formGroup]="servicesSelected" class="dark:text-white">
+        <h4>Selecciona los servicios de la habitacion:</h4>
+        <p><mat-checkbox *ngFor="let service of services" [value]="service.id ?? '0'"
+            formControlName="{{service.id}}">{{service.name}}</mat-checkbox></p>
+      </section>
+
 
       <span class="col-span-1"></span>
       <span class="col-span-1"></span>

@@ -2,11 +2,15 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
-import { RoomService } from '../room.service';
 import { RoomDto } from 'src/app/auth/interfaces/roomDto.interface';
 import { ResourceService } from '../resource.service';
 import { tap } from 'rxjs';
 import { Room } from 'src/app/auth/interfaces/room.interface';
+import { Service } from 'src/app/auth/interfaces/service.interface';
+import { ServiceService } from 'src/app/services/services/service.service';
+import { RoomServiceDto } from 'src/app/auth/interfaces/roomServiceDto.interface';
+import { RoomService as RoomServiceI } from 'src/app/auth/interfaces/roomService.interface';
+import { RoomService } from '../room.service';
 
 @Component({
   selector: 'app-edit-rooms',
@@ -18,10 +22,15 @@ export class EditRoomsComponent implements OnInit {
   status: string[] = ['Disponible', 'Ocupado', 'Mantenimiento', 'En limpieza'];
   room!: Room;
 
+  services!: Service[];
+  servicesSaved!: RoomServiceI[];
+  servicesSelected = this.formBuilder.group({});
+
   constructor(
     private formBuilder: FormBuilder,
     private roomService: RoomService,
     private resourceService: ResourceService,
+    private serviceService: ServiceService,
     private router: Router,
     private snackbar: MatSnackBar,
     private activatedRoute: ActivatedRoute,
@@ -52,9 +61,41 @@ export class EditRoomsComponent implements OnInit {
       (room) => {
         this.room = room;
         this.createForm.patchValue(room);
+        this.loadServices();
       },
       (error) => {
         console.error('Error getting room:', error);
+        this.showSnackbar(error, 'Cerrar')
+      }
+    );
+  }
+
+  loadServices() {
+    this.serviceService.getServices().subscribe(
+      (services) => {
+        this.services = services;
+        this.services.forEach((service) => {
+          this.servicesSelected.addControl(service.id ?? "", this.formBuilder.control(false));
+        });
+        this.getServiceByRoomId(this.room.id ?? "");
+      },
+      (error) => {
+        console.error('Error fetching services:', error);
+        this.showSnackbar(error, 'Cerrar')
+      }
+    );
+  }
+
+  getServiceByRoomId(id: string) {
+    this.serviceService.getServicesByRoom(id).subscribe(
+      (services) => {
+        this.servicesSaved = services;
+        services.forEach((service) => {
+          this.servicesSelected.get(service?.service?.id ?? "")?.setValue(true);
+        });
+      },
+      (error) => {
+        console.error('Error fetching services:', error);
         this.showSnackbar(error, 'Cerrar')
       }
     );
@@ -75,6 +116,17 @@ export class EditRoomsComponent implements OnInit {
         this.saveImages(urlOne, room.id);
         this.saveImages(urlTwo, room.id);
         this.saveImages(urlThree, room.id);
+        const servicesSelected = this.getIdServicesSelected();
+        console.log('servicesSelected:', servicesSelected);
+        servicesSelected.forEach((serviceId) => {
+          let exists = false;
+          this.servicesSaved.forEach((service) => {
+            if (service?.service?.id === serviceId) {
+              exists = true;
+            }
+          });
+          if (!exists) this.saveService({ room: room.id, service: serviceId });
+        });
         this.showSnackbar('Registrado correctamente', 'Entendido!');
         this.router.navigate(['rooms/list']);
       },
@@ -98,6 +150,28 @@ export class EditRoomsComponent implements OnInit {
     );
   }
 
+  saveService(roomServiceDto: RoomServiceDto) {
+    this.serviceService.saveServiceInRoom(roomServiceDto).subscribe(
+      (roomService) => {
+        // console.log('RoomService created with ID:', roomService.id);
+      },
+      (error) => {
+        // console.error('Error creating roomService:', error);
+        this.showSnackbar(error, 'Cerrar')
+      }
+    );
+  }
+
+
+  getIdServicesSelected() {
+    const servicesSelected = [];
+    for (const key in this.servicesSelected.controls) {
+      if (this.servicesSelected.get(key)?.value == true) {
+        servicesSelected.push(key);
+      }
+    }
+    return servicesSelected;
+  }
 
   showSnackbar(message: string, action?: string) {
     this.snackbar.open(message, action, {

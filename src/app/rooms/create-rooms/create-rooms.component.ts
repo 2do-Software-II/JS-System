@@ -5,6 +5,9 @@ import { Router } from '@angular/router';
 import { RoomService } from '../room.service';
 import { RoomDto } from 'src/app/auth/interfaces/roomDto.interface';
 import { ResourceService } from '../resource.service';
+import { ServiceService } from 'src/app/services/services/service.service';
+import { Service } from 'src/app/auth/interfaces/service.interface';
+import { RoomServiceDto } from 'src/app/auth/interfaces/roomServiceDto.interface';
 
 @Component({
   selector: 'app-create-rooms',
@@ -14,11 +17,14 @@ export class CreateRoomsComponent implements OnInit {
 
   createForm: FormGroup;
   status: string[] = ['Disponible', 'Ocupado', 'Mantenimiento', 'En limpieza'];
+  services!: Service[];
+  servicesSelected = this.formBuilder.group({});
 
   constructor(
     private formBuilder: FormBuilder,
     private roomService: RoomService,
     private resourceService: ResourceService,
+    private serviceService: ServiceService,
     private router: Router,
     private snackbar: MatSnackBar,
   ) {
@@ -39,6 +45,18 @@ export class CreateRoomsComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.serviceService.getServices().subscribe(
+      (services) => {
+        this.services = services;
+        this.services.forEach((service) => {
+          this.servicesSelected.addControl(service.id ?? "", this.formBuilder.control(false));
+        });
+      },
+      (error) => {
+        console.error('Error fetching services:', error);
+        this.showSnackbar(error, 'Cerrar')
+      }
+    );
   }
 
   onSubmit() {
@@ -56,6 +74,11 @@ export class CreateRoomsComponent implements OnInit {
         this.saveImages(urlOne, room.id);
         this.saveImages(urlTwo, room.id);
         this.saveImages(urlThree, room.id);
+        const servicesSelected = this.getIdServicesSelected();
+        console.log('servicesSelected:', servicesSelected);
+        servicesSelected.forEach((serviceId) => {
+          this.saveService({ room: room.id, service: serviceId });
+        });
         this.showSnackbar('Registrado correctamente', 'Entendido!');
         this.router.navigate(['rooms/list']);
       },
@@ -78,6 +101,27 @@ export class CreateRoomsComponent implements OnInit {
     );
   }
 
+  saveService(roomServiceDto: RoomServiceDto) {
+    this.serviceService.saveServiceInRoom(roomServiceDto).subscribe(
+      (roomService) => {
+        // console.log('RoomService created with ID:', roomService.id);
+      },
+      (error) => {
+        // console.error('Error creating roomService:', error);
+        this.showSnackbar(error, 'Cerrar')
+      }
+    );
+  }
+
+  getIdServicesSelected() {
+    const servicesSelected = [];
+    for (const key in this.servicesSelected.controls) {
+      if (this.servicesSelected.get(key)?.value == true) {
+        servicesSelected.push(key);
+      }
+    }
+    return servicesSelected;
+  }
 
   showSnackbar(message: string, action?: string) {
     this.snackbar.open(message, action, {

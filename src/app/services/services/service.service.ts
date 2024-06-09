@@ -3,8 +3,8 @@ import { Observable, map } from 'rxjs';
 import { Apollo, gql } from 'apollo-angular';
 import { Service } from 'src/app/auth/interfaces/service.interface';
 import { ServiceDto } from 'src/app/auth/interfaces/serviceDto.interface';
-import { RoomService } from 'src/app/rooms/room.service';
 import { RoomServiceDto } from 'src/app/auth/interfaces/roomServiceDto.interface';
+import { RoomService } from 'src/app/auth/interfaces/roomService.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -63,7 +63,7 @@ export class ServiceService {
     );
   }
 
-  getServicesByRoom(roomId: string): Observable<Service[]> {
+  getServicesByRoom(roomId: string): Observable<RoomService[]> {
     return this.apollo.query({
       query: gql`
         query GetServicesByRoom($roomId: String!) {

@@ -10,8 +10,6 @@ import { RoomDto } from '../auth/interfaces/roomDto.interface';
 })
 export class RoomService {
 
-
-
   constructor(private readonly apollo: Apollo) { }
 
   getRooms(): Observable<Room[]> {
