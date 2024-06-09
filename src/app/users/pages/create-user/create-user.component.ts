@@ -1,8 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { UsersService } from '../../services/users.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { catchError, of, tap } from 'rxjs';
-import { Register } from 'src/app/auth/interfaces/register.interface';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { UserService } from '../../services/user.service';

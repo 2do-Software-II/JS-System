@@ -9,7 +9,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { UsersPageComponent } from './pages/users-page/users-page.component';
 import { CreateUserComponent } from './pages/create-user/create-user.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { UpdateUserComponent } from './pages/update-user/update-user.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatGridListModule } from '@angular/material/grid-list';
@@ -24,7 +23,6 @@ import { MaterialModule } from '../material/material.module';
     UsersComponent,
     UsersPageComponent,
     CreateUserComponent,
-    UpdateUserComponent,
   ],
   imports: [
     CommonModule,

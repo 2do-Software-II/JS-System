@@ -4,7 +4,6 @@ import { AuthenticationGuard } from '../auth/guards/authentication.guard';
 import { UsersComponent } from './pages/users/users.component';
 import { UsersPageComponent } from './pages/users-page/users-page.component';
 import { CreateUserComponent } from './pages/create-user/create-user.component';
-import { UpdateUserComponent } from './pages/update-user/update-user.component';
 
 const routes: Routes = [
   {
@@ -20,11 +19,6 @@ const routes: Routes = [
       {
         path: 'create',
         component: CreateUserComponent,
-        data: { name: 'home' },
-      },
-      {
-        path: 'edit/:id',
-        component: UpdateUserComponent,
         data: { name: 'home' },
       },
       {
