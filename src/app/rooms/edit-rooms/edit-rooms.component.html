@@ -1,0 +1,126 @@
+<h2>Editar Habitacion</h2>
+<hr>
+
+<mat-card>
+  <mat-card-content>
+    <form [formGroup]="createForm" (ngSubmit)="onSubmit()" class="h-full grid grid-cols-1 md:grid-cols-2 ">
+
+      <mat-form-field class="col-6 px-1 py-1">
+        <mat-label>Nro Habitacion</mat-label>
+        <input matInput formControlName="nroRoom" placeholder="Nro Habitacion">
+        <mat-error *ngIf="createForm.controls['nroRoom'].invalid && createForm.controls['nroRoom'].touched">
+          El numero de habitacion es requerido
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="col-6 px-1 py-1">
+        <mat-label>Estado</mat-label>
+        <mat-select formControlName="status" placeholder="Seleccionar el rol">
+          <mat-option *ngFor="let statu of status" [value]="statu">
+            {{ statu }}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="createForm.controls['status'].invalid && createForm.controls['status'].touched">
+          El estado es requerido
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="col-6 px-1 py-1">
+        <mat-label>Numero de camas</mat-label>
+        <input matInput formControlName="nroBeds" placeholder="Numero de camas">
+        <mat-error *ngIf="createForm.controls['nroBeds'].invalid && createForm.controls['nroBeds'].touched">
+          El numero de camas es requerido
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="col-6 px-1 py-1">
+        <mat-label>Numero de personas</mat-label>
+        <input matInput formControlName="nroPersons" placeholder="Numero de personas">
+        <mat-error *ngIf="createForm.controls['nroPersons'].invalid && createForm.controls['nroPersons'].touched">
+          El numero de personas es requerido
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="col-6 px-1 py-1">
+        <mat-label>Tamaño</mat-label>
+        <input matInput formControlName="size" placeholder="Tamaño">
+        <mat-error *ngIf="createForm.controls['size'].invalid && createForm.controls['size'].touched">
+          El estado es requerido
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="col-6 px-1 py-1">
+        <mat-label>Precio</mat-label>
+        <input matInput formControlName="price" placeholder="Precio">
+        <mat-error *ngIf="createForm.controls['price'].invalid && createForm.controls['price'].touched">
+          El precio es requerido
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="col-12 px-1 py-1">
+        <mat-label>Descripcion</mat-label>
+        <textarea matInput formControlName="description" placeholder="Descripcion"></textarea>
+        <mat-error *ngIf="createForm.controls['description'].invalid && createForm.controls['description'].touched">
+          La descripcion es requerida
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="col-6 px-1 py-1">
+        <mat-label>Tipo</mat-label>
+        <input matInput formControlName="type" placeholder="Tipo">
+        <mat-error *ngIf="createForm.controls['type'].invalid && createForm.controls['type'].touched">
+          El tipo es requerido
+        </mat-error>
+      </mat-form-field>
+
+      <!-- view -->
+      <mat-form-field class="col-6 px-1 py-1">
+        <mat-label>Vistas</mat-label>
+        <input matInput formControlName="view" placeholder="Vista">
+        <mat-error *ngIf="createForm.controls['view'].invalid && createForm.controls['view'].touched">
+          El tipo es requerido
+        </mat-error>
+      </mat-form-field>
+
+      <!-- lista de 3 urls -->
+
+      <mat-form-field class="col-6 px-1 py-1">
+        <mat-label>Imagen 1</mat-label>
+        <input matInput formControlName="urlOne" placeholder="Imagen 1">
+        <mat-error *ngIf="createForm.controls['urlOne'].invalid && createForm.controls['urlOne'].touched">
+          La imagen es requerida
+        </mat-error>
+      </mat-form-field>
+
+
+      <mat-form-field class="col-6 px-1 py-1">
+        <mat-label>Imagen 2</mat-label>
+        <input matInput formControlName="urlTwo" placeholder="Imagen 2">
+        <mat-error *ngIf="createForm.controls['urlTwo'].invalid && createForm.controls['urlTwo'].touched">
+          La imagen es requerida
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="col-6 px-1 py-1">
+        <mat-label>Imagen 3</mat-label>
+        <input matInput formControlName="urlThree" placeholder="Imagen 3">
+        <mat-error *ngIf="createForm.controls['urlThree'].invalid && createForm.controls['urlThree'].touched">
+          La imagen es requerida
+        </mat-error>
+      </mat-form-field>
+
+
+      <span class="col-span-1"></span>
+      <span class="col-span-1"></span>
+      <div class="flex w-full justify-content-between">
+        <button mat-flat-button color="primary" type="submit" [disabled]="createForm.invalid">
+          Guardar
+        </button>
+        <button mat-flat-button type="submit" style="background-color: #e0d3d3;" class="ml-5"
+          [routerLink]="['/rooms/list']">
+          Cancelar
+        </button>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>

@@ -25,15 +25,16 @@ const routes: Routes = [
     loadChildren: () => import("./roles/roles.module").then(m => m.RolesModule),
     data: { name: 'roles' }
   },
-  // {
-  //   path: "productos",
-  //   loadChildren: () => import("./producto/producto.module").then(m => m.ProductoModule),
-  //   data: { name: 'productos' }
-  // },
-  // {
-  //   path: "reconocimiento",
-  //   loadChildren: () => import("./reconocimiento/reconocimiento.module").then(m => m.ReconocimientoModule),
-  // },
+  {
+    path: "services",
+    loadChildren: () => import("./services/services.module").then(m => m.ServicesModule),
+    data: { name: 'services' }
+  },
+  {
+    path: "rooms",
+    loadChildren: () => import("./rooms/rooms.module").then(m => m.RoomsModule),
+    data: { name: 'rooms' }
+  },
   {
     path: '404',
     component: Error404PageComponent

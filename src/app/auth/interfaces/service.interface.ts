@@ -1,4 +1,5 @@
-export interface RoleDto {
+export interface Service {
+  id?: string;
   name?: string;
   description?: string;
 }
