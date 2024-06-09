@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Room } from 'src/app/auth/interfaces/room.interface';
 import { RoomService } from '../room.service';
 import { Router } from '@angular/router';
@@ -10,7 +10,7 @@ import { MatSort } from '@angular/material/sort';
   selector: 'app-rooms',
   templateUrl: './rooms.component.html',
 })
-export class RoomsComponent {
+export class RoomsComponent implements OnInit {
 
   public rooms: Room[] = [];
   displayedColumns: string[] = ['nroRoom', 'status', 'description', 'capacity', 'price', 'type', 'size', 'actions'];

@@ -36,6 +36,11 @@ const routes: Routes = [
     data: { name: 'rooms' }
   },
   {
+    path: "customers",
+    loadChildren: () => import("./customer/customer.module").then(m => m.CustomerModule),
+    data: { name: 'customers' }
+  },
+  {
     path: '404',
     component: Error404PageComponent
   },
