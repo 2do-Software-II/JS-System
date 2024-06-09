@@ -1,0 +1,36 @@
+<div class="mt-4 mb-4">
+  <div class="flex flex-row justify-between ">
+    <p class="text-lg font-bold">Servicios</p>
+  </div>
+
+  <button mat-raised-button style="background-color: #636e72; color: #FFFFFF;" [routerLink]="['/services/create']"
+    class=" my-2 p-4">Crear Servicio</button>
+
+
+  <mat-table [dataSource]="services">
+
+    <ng-container matColumnDef="name">
+      <mat-header-cell *matHeaderCellDef>Nombre</mat-header-cell>
+      <mat-cell *matCellDef="let services">{{ services.name }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="description">
+      <mat-header-cell *matHeaderCellDef>Descripcion</mat-header-cell>
+      <mat-cell *matCellDef="let services">{{ services.description }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+      <mat-header-cell *matHeaderCellDef>Acciones</mat-header-cell>
+      <mat-cell *matCellDef="let user">
+        <button mat-icon-button (click)="updateUser(user.id)">
+          <mat-icon>edit</mat-icon>
+        </button>
+      </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
+
+
+</div>
