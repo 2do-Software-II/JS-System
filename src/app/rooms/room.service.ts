@@ -35,6 +35,29 @@ export class RoomService {
     );
   }
 
+  getAllRoomsByAvailable(): Observable<Room[]> {
+    return this.apollo.query({
+      query: gql`
+        query MyQuery {
+          getAllRoomsBy(attr: "status", value: "Disponible") {
+            id
+            nroRoom
+            status
+            nroBeds
+            nroPersons
+            size
+            price
+            description
+            type
+            view
+          }
+        }
+      `
+    }).pipe(
+      map((result: any) => result.data?.getAllRoomsBy)
+    );
+  }
+
   getOneRoom(id: string): Observable<Room> {
     return this.apollo.query({
       query: gql`

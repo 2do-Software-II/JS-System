@@ -41,6 +41,11 @@ const routes: Routes = [
     data: { name: 'customers' }
   },
   {
+    path: "reservations",
+    loadChildren: () => import("./reservations/reservations.module").then(m => m.ReservationsModule),
+    data: { name: 'reservations' }
+  },
+  {
     path: '404',
     component: Error404PageComponent
   },

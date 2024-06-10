@@ -1,0 +1,75 @@
+<div class="mt-4 mb-4">
+  <div class="flex flex-row justify-between ">
+    <p class="text-lg font-bold">Reservas</p>
+  </div>
+
+  <div class="w-full flex justify-between">
+    <div class="flex text-center items-center">
+      <button mat-raised-button style="background-color: #636e72; color: #FFFFFF;"
+        [routerLink]="['/reservations/create']" class=" my-2 p-4">Crear reservacion</button>
+    </div>
+
+    <mat-form-field class="my-2 p-4">
+      <mat-label>Filtrar por estado</mat-label>
+      <mat-select (selectionChange)="fillterByStatus($event.value)">
+        <mat-option *ngFor="let status of statuses" [value]="status">{{status}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div class="mat-elevation-z8">
+    <table mat-table [dataSource]="dataSource">
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef> Cliente </th>
+        <td mat-cell *matCellDef="let element"> {{element.customer.name + ' ' + element.customer.lastName}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="phone">
+        <th mat-header-cell *matHeaderCellDef> Telefono</th>
+        <td mat-cell *matCellDef="let element"> {{element.customer.phone}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="nroRoom">
+        <th mat-header-cell *matHeaderCellDef> Nro Habitacion</th>
+        <td mat-cell *matCellDef="let element"> {{element.room.nroRoom}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="date">
+        <th mat-header-cell *matHeaderCellDef> Fecha reservacion</th>
+        <td mat-cell *matCellDef="let element">{{element.date + " " + element.time}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef> Estado</th>
+        <td mat-cell *matCellDef="let element"> {{element.status}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="checkIn">
+        <th mat-header-cell *matHeaderCellDef> CheckIn</th>
+        <td mat-cell *matCellDef="let element"> {{element.checkIn}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="checkOut">
+        <th mat-header-cell *matHeaderCellDef> CheckOut</th>
+        <td mat-cell *matCellDef="let element"> {{element.checkOut}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="fullPayment">
+        <th mat-header-cell *matHeaderCellDef> Costo</th>
+        <td mat-cell *matCellDef="let element"> {{element.fullPayment + ' Bs'}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef> Acciones</th>
+        <td mat-cell *matCellDef="let element">
+          <button mat-icon-button (click)="update(element.id)">
+            <mat-icon>edit</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+    <mat-paginator [pageSizeOptions]="[5, 10, 15]" aria-label="Select page of users" class="w-full"></mat-paginator>
+  </div>
+</div>
