@@ -149,6 +149,8 @@ export class ReservationService {
   }
 
   updateBooking(id: string, bookingDto: BookingDto): Observable<Booking> {
+    if (bookingDto.checkIn == "NaN/NaN/NaN") bookingDto.checkIn = "";
+    if (bookingDto.checkOut == "NaN/NaN/NaN") bookingDto.checkOut = "";
     return this.apollo.mutate({
       mutation: gql`
         mutation UpdateBooking($id: String!, $bookingDto: UpdateBookingDto!) {

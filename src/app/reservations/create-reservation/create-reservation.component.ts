@@ -9,7 +9,7 @@ import { ReservationService } from '../reservation.service';
 import { Room } from 'src/app/auth/interfaces/room.interface';
 import { BookingDto } from 'src/app/auth/interfaces/bookingDto.interface';
 
-enum PaymentMethod {
+export enum PaymentMethod {
   CASH = 'EFECTIVO',
   CARD = 'TARJETA',
   TRANSFER = 'TRANSFERENCIA',

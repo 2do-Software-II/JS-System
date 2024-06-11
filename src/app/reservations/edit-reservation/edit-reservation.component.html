@@ -1,1 +1,123 @@
-<p>edit-reservation works!</p>
+<h2>Editar Reserva</h2>
+<hr>
+
+<mat-card>
+  <mat-card-content>
+    <form [formGroup]="createForm" (ngSubmit)="onSubmit()" class="h-full grid grid-cols-1 md:grid-cols-2 ">
+
+      <mat-form-field class="col-6 px-1 py-1">
+        <mat-label>Cliente</mat-label>
+        <input matInput [(ngModel)]="customerName" placeholder="Cliente" readonly [ngModelOptions]="{standalone: true}">
+      </mat-form-field>
+
+      <mat-form-field class="col-6 px-1 py-1">
+        <mat-label>Habitacion</mat-label>
+        <input matInput [(ngModel)]="roomName" placeholder="Habitacion" readonly [ngModelOptions]="{standalone: true}">
+      </mat-form-field>
+
+      <mat-form-field class="col-6 px-1 py-1">
+        <mat-label>Fecha de inicio</mat-label>
+        <input matInput [matDatepicker]="datepicker" formControlName="startDate"
+          (ngModelChange)="calculateFullPayment()">
+        <mat-datepicker-toggle matIconSuffix [for]="datepicker"></mat-datepicker-toggle>
+        <mat-datepicker #datepicker>
+          <mat-datepicker-actions>
+            <button mat-button matDatepickerCancel>Cancel</button>
+            <button mat-raised-button color="primary" matDatepickerApply>Apply</button>
+          </mat-datepicker-actions>
+        </mat-datepicker>
+        <mat-error *ngIf="createForm.controls['startDate'].invalid && createForm.controls['startDate'].touched">
+          La fecha de inicio es requerida
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="col-6 px-1 py-1">
+        <mat-label>Fecha de final</mat-label>
+        <input matInput [matDatepicker]="datepicker1" formControlName="endDate"
+          (ngModelChange)="calculateFullPayment()">
+        <mat-datepicker-toggle matIconSuffix [for]="datepicker1"></mat-datepicker-toggle>
+        <mat-datepicker #datepicker1>
+          <mat-datepicker-actions>
+            <button mat-button matDatepickerCancel>Cancel</button>
+            <button mat-raised-button color="primary" matDatepickerApply>Apply</button>
+          </mat-datepicker-actions>
+        </mat-datepicker>
+        <mat-error *ngIf="createForm.controls['endDate'].invalid && createForm.controls['endDate'].touched">
+          La fecha de final es requerida
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="col-6 px-1 py-1">
+        <mat-label>CheckIn</mat-label>
+        <input matInput [matDatepicker]="datepicker2" formControlName="checkIn">
+        <mat-datepicker-toggle matIconSuffix [for]="datepicker2"></mat-datepicker-toggle>
+        <mat-datepicker #datepicker2>
+          <mat-datepicker-actions>
+            <button mat-button matDatepickerCancel>Cancel</button>
+            <button mat-raised-button color="primary" matDatepickerApply>Apply</button>
+          </mat-datepicker-actions>
+        </mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field class="col-6 px-1 py-1">
+        <mat-label>CheckOut</mat-label>
+        <input matInput [matDatepicker]="datepicker4" formControlName="checkOut">
+        <mat-datepicker-toggle matIconSuffix [for]="datepicker4"></mat-datepicker-toggle>
+        <mat-datepicker #datepicker4>
+          <mat-datepicker-actions>
+            <button mat-button matDatepickerCancel>Cancel</button>
+            <button mat-raised-button color="primary" matDatepickerApply>Apply</button>
+          </mat-datepicker-actions>
+        </mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field class="col-6 px-1 py-1">
+        <mat-label>Metodo de pago</mat-label>
+        <mat-select formControlName="paymentMethod" placeholder="Seleccionar el rol">
+          <mat-option *ngFor="let method of paymentMethods" [value]="method">
+            {{ method }}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="createForm.controls['paymentMethod'].invalid && createForm.controls['paymentMethod'].touched">
+          El metodo de pago es requerido
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="col-6 px-1 py-1">
+        <mat-label>Estado</mat-label>
+        <mat-select formControlName="status" placeholder="Seleccionar un estado">
+          <mat-option *ngFor="let status of statuses" [value]="status">
+            {{ status }}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="createForm.controls['status'].invalid && createForm.controls['status'].touched">
+          El Estado es requerido
+        </mat-error>
+      </mat-form-field>
+
+      <!-- fullPayment -->
+      <mat-form-field class="col-6 px-1 py-1">
+        <mat-label>Pago total</mat-label>
+        <input matInput formControlName="fullPayment" placeholder="Pago total">
+        <mat-error *ngIf="createForm.controls['fullPayment'].invalid && createForm.controls['fullPayment'].touched">
+          El pago total es requerido
+        </mat-error>
+      </mat-form-field>
+
+
+      <span class="col-span-1"></span>
+      <span class="col-span-1"></span>
+
+
+      <div class="flex w-full justify-content-between">
+        <button mat-flat-button color="primary" type="submit" [disabled]="createForm.invalid">
+          Guardar
+        </button>
+        <button mat-flat-button type="submit" style="background-color: #e0d3d3;" class="ml-5"
+          [routerLink]="['/reservations/list']">
+          Cancelar
+        </button>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>

@@ -60,7 +60,6 @@ export class ReservationComponent implements OnInit {
 
   fillterByStatus(status: Status) {
     this.fillterStatus = status;
-    console.log(this.fillterStatus);
     this.loadRooms();
   }
 
