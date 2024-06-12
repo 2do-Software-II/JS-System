@@ -1,7 +1,10 @@
-import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { User } from 'src/app/auth/interfaces';
 import { Router } from '@angular/router';
 import { UserService } from '../../services/user.service';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
 
 @Component({
   selector: 'users',
@@ -11,6 +14,10 @@ import { UserService } from '../../services/user.service';
 export class UsersComponent implements OnInit {
   public users: User[] = [];
   displayedColumns: string[] = ['name', 'email', 'role', 'actions'];
+  dataSource!: MatTableDataSource<User>;
+
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
 
   constructor(
     private userService: UserService,
@@ -24,6 +31,9 @@ export class UsersComponent implements OnInit {
   loadUsers() {
     this.userService.getUsers().subscribe((users) => {
       this.users = users;
+      this.dataSource = new MatTableDataSource(users);
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
     });
   }
 
