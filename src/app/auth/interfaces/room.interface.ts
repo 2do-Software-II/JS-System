@@ -1,3 +1,5 @@
+import { Customer } from "./customer.interface";
+
 export interface Room {
   id?: string;
   nroRoom?: string;
