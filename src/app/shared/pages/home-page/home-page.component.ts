@@ -15,8 +15,8 @@ import {
   ApexResponsive
 } from "ng-apexcharts";
 import { Booking } from "src/app/auth/interfaces/booking.interface";
-import { Room } from "src/app/auth/interfaces/room.interface";
 import { ReservationService } from "src/app/reservations/reservation.service";
+import { DashboardService } from "../../services/dashboard.service";
 
 export type ChartOptionsC = {
   series: ApexAxisChartSeries;
@@ -68,14 +68,42 @@ export class HomePageComponent {
   public chartOptionsA: Partial<ChartOptionsA> | any;
   public bookingsToday: Booking[] = [];
 
+  public serialOne: any = [];
+  public nameSerialOne: any = [];
+
+  public serialTwo: any = [];
+  public nameSerialTwo: any = [];
+
+  public serialThree: any = [];
+  public nameSerialThree: any = [];
+
   constructor(
     private reservationService: ReservationService,
+    private dashboardService: DashboardService
   ) {
+    this.dashboardService.get().subscribe((dashboard) => {
+      dashboard.optionTwo.forEach((element) => {
+        this.serialTwo.push(element.fullPayment);
+        this.nameSerialTwo.push(this.nameMonthByNumber(element.monthNumber));
+      });
+      this.loadChartOptionC();
+      dashboard.optionOne.forEach((element) => {
+        this.serialOne.push(element.fullPayment);
+        this.nameSerialOne.push(this.formatDate(element.date));
+      });
+      this.loadChartOptionA();
+      dashboard.optionThree.forEach((element) => {
+        this.serialThree.push(element.reservationCount);
+        this.nameSerialThree.push(this.nameMonthByNumber(element.monthNumber));
+      });
+      this.loadChartOptionR();
+
+    });
     this.chartOptionsC = {
       series: [
         {
           name: "Ingresos",
-          data: [2.3, 3.1, 4.0, 10.1, 4.0, 3.6, 3.2, 2.3, 1.4, 0.8, 0.5, 0.2] // Array con los ingresos mensuales
+          data: this.serialTwo// Array con los ingresos mensuales
         }
       ],
       chart: {
@@ -102,20 +130,7 @@ export class HomePageComponent {
       },
 
       xaxis: {
-        categories: [
-          "Ene",
-          "Feb",
-          "Mar",
-          "Apr",
-          "May",
-          "Jun",
-          "Jul",
-          "Agos",
-          "Sep",
-          "Oct",
-          "Nov",
-          "Dic"
-        ],
+        categories: this.nameSerialTwo,
         position: "top",
         labels: {
           offsetY: -18
@@ -182,21 +197,8 @@ export class HomePageComponent {
     this.chartOptionsA = {
       series: [
         {
-          name: "CANTIDAD RESERVAS",
-          data: [
-            8107.85,
-            8128.0,
-            8122.9,
-            8165.5,
-            8340.7,
-            8423.7,
-            8423.5,
-            8514.3,
-            8481.85,
-            8487.7,
-            8506.9,
-            8626.2
-          ]
+          name: "CANTIDAD DE INGRESOS POR DIA ",
+          data: this.serialOne
         }
       ],
       chart: {
@@ -214,27 +216,14 @@ export class HomePageComponent {
       },
 
       title: {
-        text: "Reservas de habitaciones por mes",
+        text: "Cantidad de ingresos por dia",
         align: "left"
       },
       subtitle: {
         text: "Año 2024",
         align: "left"
       },
-      labels: [
-        "Ene",
-        "Feb",
-        "Mar",
-        "Apr",
-        "May",
-        "Jun",
-        "Jul",
-        "Agos",
-        "Sep",
-        "Oct",
-        "Nov",
-        "Dic"
-      ],
+      labels: this.nameSerialOne,
       yaxis: {
         opposite: true
       },
@@ -243,12 +232,12 @@ export class HomePageComponent {
       }
     };
     this.chartOptionsR = {
-      series: [44, 55, 13, 43, 22, 12, 15],
+      series: this.serialThree,
       chart: {
         width: 380,
         type: "pie"
       },
-      labels: ["Room A", "Room B", "Room C", "Room D", "Room E", "Room E", "Room E"],
+      labels: this.nameSerialThree,
       responsive: [
         {
           breakpoint: 480,
@@ -263,14 +252,225 @@ export class HomePageComponent {
         }
       ]
     };
-    this.reservationService.getReservations().subscribe((bookings) => {
-      const date = new Date().toISOString().split('T')[0];
-      const dateNowFormat = this.extractDateFormat(date);
-      this.bookingsToday = bookings.filter((booking) => booking.startDate === dateNowFormat);
-    });
+  }
+
+  loadChartOptionC() {
+    this.chartOptionsC = {
+      series: [
+        {
+          name: "Ingresos",
+          data: this.serialTwo// Array con los ingresos mensuales
+        }
+      ],
+      chart: {
+        height: 350,
+        type: "bar"
+      },
+      plotOptions: {
+        bar: {
+          dataLabels: {
+            position: "top" // top, center, bottom
+          }
+        }
+      },
+      dataLabels: {
+        enabled: true,
+        formatter: function (val: any) {
+          return val + " Bs.";
+        },
+        offsetY: -20,
+        style: {
+          fontSize: "12px",
+          colors: ["#304758"]
+        }
+      },
+
+      xaxis: {
+        categories: this.nameSerialTwo,
+        position: "top",
+        labels: {
+          offsetY: -18
+        },
+        axisBorder: {
+          show: false
+        },
+        axisTicks: {
+          show: false
+        },
+        crosshairs: {
+          fill: {
+            type: "gradient",
+            gradient: {
+              colorFrom: "#D8E3F0",
+              colorTo: "#BED1E6",
+              stops: [0, 100],
+              opacityFrom: 0.4,
+              opacityTo: 0.5
+            }
+          }
+        },
+        tooltip: {
+          enabled: true,
+          offsetY: -35
+        }
+      },
+      fill: {
+        type: "gradient",
+        gradient: {
+          shade: "light",
+          type: "horizontal",
+          shadeIntensity: 0.25,
+          gradientToColors: undefined,
+          inverseColors: true,
+          opacityFrom: 1,
+          opacityTo: 1,
+          stops: [50, 0, 100, 100]
+        }
+      },
+      yaxis: {
+        axisBorder: {
+          show: false
+        },
+        axisTicks: {
+          show: false
+        },
+        labels: {
+          show: false,
+          formatter: function (val: any) {
+            return val + " Bs.";
+          }
+        }
+      },
+      title: {
+        text: "Ingresos mensuales, 2024",
+        offsetY: 320,
+        align: "center",
+        style: {
+          color: "#444"
+        }
+      }
+    };
+  }
+
+  loadChartOptionA() {
+    this.chartOptionsA = {
+      series: [
+        {
+          name: "CANTIDAD DE INGRESOS POR DIA ",
+          data: this.serialOne
+        }
+      ],
+      chart: {
+        type: "area",
+        height: 350,
+        zoom: {
+          enabled: false
+        }
+      },
+      dataLabels: {
+        enabled: false
+      },
+      stroke: {
+        curve: "straight"
+      },
+
+      title: {
+        text: "Cantidad de ingresos por dia",
+        align: "left"
+      },
+      subtitle: {
+        text: "Año 2024",
+        align: "left"
+      },
+      labels: this.nameSerialOne,
+      yaxis: {
+        opposite: true
+      },
+      legend: {
+        horizontalAlign: "left"
+      }
+    };
+  }
+
+  loadChartOptionR() {
+    this.chartOptionsR = {
+      series: this.serialThree,
+      chart: {
+        width: 380,
+        type: "pie"
+      },
+      labels: this.nameSerialThree,
+      responsive: [
+        {
+          breakpoint: 480,
+          options: {
+            chart: {
+              width: 200
+            },
+            legend: {
+              position: "bottom"
+            }
+          }
+        }
+      ]
+    };
   }
 
   extractDateFormat(date: string) {
+    const dateI = new Date(date);
+    let day;
+    let month
+    let monthNumber = dateI.getMonth() + 1;
+    const year = dateI.getFullYear();
+    if (dateI.getDate() < 10) {
+      day = `0${dateI.getDate()}`;
+    } else {
+      day = dateI.getDate();
+    }
+    if (monthNumber < 10) {
+      month = `0${monthNumber}`;
+    } else {
+      month = dateI.getMonth() + 1;
+    }
+    return `${day}/${month}/${year}`;
+  }
+
+
+
+  nameMonthByNumber(monthNumber: number) {
+    switch (monthNumber) {
+      case 1:
+        return "Enero";
+      case 2:
+        return "Febrero";
+      case 3:
+        return "Marzo";
+      case 4:
+        return "Abril";
+      case 5:
+        return "Mayo";
+      case 6:
+        return "Junio";
+      case 7:
+        return "Julio";
+      case 8:
+        return "Agosto";
+      case 9:
+        return "Septiembre";
+      case 10:
+        return "Octubre";
+      case 11:
+        return "Noviembre";
+      case 12:
+        return "Diciembre";
+      default:
+        return "";
+    }
+  }
+
+
+  formatDate(date: string) {
+    // input 2024-05-11T00:00:00 output 11/05/2024
     const dateI = new Date(date);
     let day;
     let month

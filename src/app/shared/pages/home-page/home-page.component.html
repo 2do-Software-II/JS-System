@@ -2,10 +2,10 @@
   <div class="flex-1 flex flex-wrap">
     <div class="flex-1 pb-4 w-full">
       <!-- Contenedor de Gráficas -->
-      <div class="mt-1 grid grid-cols-2 gap-2">
+      <div class="mt-1 grid grid-cols-3 gap-2">
         <!-- Primer contenedor -->
         <!-- Sección 1 - Gráfica de Usuarios -->
-        <div class=" bg-white p-4 shadow rounded-lg w-full">
+        <div class=" bg-white p-4 shadow rounded-lg w-full col-span-2">
           <h2 class="text-gray-500 text-lg font-semibold pb-1">Ingresos Mensuales</h2>
           <div class="my-1"></div> <!-- Espacio de separación -->
           <div class="bg-gradient-to-r from-cyan-300 to-cyan-500 h-px mb-6"></div> <!-- Línea con gradiente -->
@@ -20,8 +20,21 @@
         </div>
         <!-- Segundo contenedor -->
         <!-- Sección 2 - Gráfica de Comercios -->
-        <div class=" bg-white p-4 shadow rounded-lg w-full">
-          <h2 class="text-gray-500 text-lg font-semibold pb-1">Cantidad Reservas Mensuales</h2>
+        <div class=" bg-white p-4 shadow rounded-lg w-full col-span-1 ">
+          <h2 class="text-gray-500 text-lg font-semibold pb-1">Cantidad de reservas por mes - 2024</h2>
+          <div class="my-1"></div> <!-- Espacio de separación -->
+          <div class="bg-gradient-to-r from-cyan-300 to-cyan-500 h-px mb-6"></div> <!-- Línea con gradiente -->
+          <div class="chart-container">
+            <div id="chartR">
+              <apx-chart [series]="chartOptionsR.series" [chart]="chartOptionsR.chart" [labels]="chartOptionsR.labels"
+                [responsive]="chartOptionsR.responsive"></apx-chart>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="mt-1 grid grid-cols-3 gap-2">
+        <div class=" bg-white p-4 shadow rounded-lg w-full col-span-3">
+          <h2 class="text-gray-500 text-lg font-semibold pb-1">Ingresos diarios</h2>
           <div class="my-1"></div> <!-- Espacio de separación -->
           <div class="bg-gradient-to-r from-cyan-300 to-cyan-500 h-px mb-6"></div> <!-- Línea con gradiente -->
           <div class="chart-container">
@@ -33,69 +46,7 @@
             </div>
           </div>
         </div>
-      </div>
-      <div class="mt-1 grid grid-cols-3 gap-2">
-        <div class=" bg-white p-4 shadow rounded-lg col-span-2">
-          <h2 class="text-gray-500 text-lg font-semibold pb-1">Reservas de Hoy</h2>
-          <div class="my-1"></div> <!-- Espacio de separación -->
-          <div class="bg-gradient-to-r from-cyan-300 to-cyan-500 h-px mb-1"></div> <!-- Línea con gradiente -->
-          <table class="w-full table-auto text-sm">
-            <thead>
-              <tr class="text-sm leading-normal">
-                <th
-                  class="py-2 px-4 bg-grey-lightest font-bold uppercase text-sm text-grey-light border-b border-grey-light">
-                  Cliente
-                </th>
-                <th
-                  class="py-2 px-4 bg-grey-lightest font-bold uppercase text-sm text-grey-light border-b border-grey-light">
-                  Telefono
-                </th>
-                <th
-                  class="py-2 px-4 bg-grey-lightest font-bold uppercase text-sm text-grey-light border-b border-grey-light">
-                  Habitación
-                </th>
-                <th
-                  class="py-2 px-4 bg-grey-lightest font-bold uppercase text-sm text-grey-light border-b border-grey-light">
-                  Estado
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr class="hover:bg-grey-lighter" *ngFor="let booking of bookingsToday">
-                <td class="py-2 px-4 border-b border-grey-light">
-                  {{ booking?.customer?.name + ' ' + booking?.customer?.lastName | titlecase }}
-                </td>
-                <td class="py-2 px-4 border-b border-grey-light">
-                  {{ booking?.customer?.phone }}
-                </td>
-                <td class="py-2 px-4 border-b border-grey-light">
-                  {{ booking?.room?.nroRoom }}
-                </td>
-                <td class="py-2 px-4 border-b border-grey-light">
-                  {{ booking?.status | titlecase }}
-                </td>
-              </tr>
-            </tbody>
-          </table>
-          <!-- Botón "Ver más" para la tabla de Autorizaciones Pendientes -->
-          <div class="text-right mt-4">
-            <button class="bg-cyan-500 hover:bg-cyan-600 text-white font-semibold py-2 px-4 rounded"
-              [routerLink]="['/reservations/list']">
-              Ver más
-            </button>
-          </div>
-        </div>
-        <div class=" bg-white p-4 shadow rounded-lg w-full col-span-1 ">
-          <h2 class="text-gray-500 text-lg font-semibold pb-1">Cantidad de reservas por habitacion - 2024</h2>
-          <div class="my-1"></div> <!-- Espacio de separación -->
-          <div class="bg-gradient-to-r from-cyan-300 to-cyan-500 h-px mb-6"></div> <!-- Línea con gradiente -->
-          <div class="chart-container">
-            <div id="chartR">
-              <apx-chart [series]="chartOptionsR.series" [chart]="chartOptionsR.chart" [labels]="chartOptionsR.labels"
-                [responsive]="chartOptionsR.responsive"></apx-chart>
-            </div>
-          </div>
-        </div>
+
       </div>
 
     </div>
