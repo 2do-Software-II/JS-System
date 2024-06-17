@@ -24,6 +24,7 @@ export class ReservationComponent implements OnInit {
   public reservations: Booking[] = [];
   public fillterStatus: Status = Status.ALL;
   public statuses = [Status.ALL, Status.PENDING, Status.RESERVATED, Status.CANCELED, Status.CHECKED_IN, Status.FINISHED];
+  public loading = false;
 
   displayedColumns: string[] = ['name', 'phone', 'nroRoom', 'date', 'status', 'checkIn', 'checkOut', 'fullPayment', 'actions'];
   dataSource!: MatTableDataSource<Booking>;
@@ -37,6 +38,7 @@ export class ReservationComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.loading = true;
     this.loadRooms();
   }
 
@@ -47,6 +49,7 @@ export class ReservationComponent implements OnInit {
         this.dataSource = new MatTableDataSource(reservations);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
+        this.loading = false;
       });
     } else {
       this.reservationService.getReservations().subscribe((reservations) => {
@@ -54,6 +57,7 @@ export class ReservationComponent implements OnInit {
         this.dataSource = new MatTableDataSource(reservations.filter((reservation) => reservation.status === this.fillterStatus));
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
+        this.loading = false;
       });
     }
   }

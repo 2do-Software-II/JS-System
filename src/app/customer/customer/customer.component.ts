@@ -15,6 +15,7 @@ export class CustomerComponent implements OnInit {
   public customers: Customer[] = [];
   displayedColumns: string[] = ['name', 'phone', 'address', 'ci', 'nationality', 'gender', 'actions'];
   dataSource!: MatTableDataSource<Customer>;
+  public loading = false;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -26,6 +27,7 @@ export class CustomerComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.loading = true;
     this.loadRooms();
   }
 
@@ -35,6 +37,7 @@ export class CustomerComponent implements OnInit {
       this.dataSource = new MatTableDataSource(customers);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
+      this.loading = false;
     });
   }
 

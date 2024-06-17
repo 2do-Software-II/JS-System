@@ -66,10 +66,12 @@
           </button>
         </td>
       </ng-container>
-
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
+    <div *ngIf="loading" class="flex justify-center items-center py-2 bg-gray-600">
+      <p class=" text-white">Cargando...</p>
+    </div>
     <mat-paginator [pageSizeOptions]="[5, 10, 15]" aria-label="Select page of users" class="w-full"></mat-paginator>
   </div>
 </div>
